@@ -1,14 +1,16 @@
 package com.cursojava.curso.controller;
 
 import com.cursojava.curso.models.Usuario;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UsuarioController {
-    @RequestMapping(value = "usuario")
-    public Usuario getUser(){
+    @RequestMapping(value = "usuario/{id}")
+    public Usuario getUser(@PathVariable Long id){
         Usuario usuario = new Usuario();
+        usuario.setId(id);
         usuario.setNombre("Erick");
         usuario.setApellido("Fuentes");
         usuario.setEmail("erickfuentes.it@gmail.com");
@@ -16,7 +18,7 @@ public class UsuarioController {
         return usuario;
     }
 
-    @RequestMapping(value = "usuario")
+    @RequestMapping(value = "usuarioasd")
     public Usuario edit(){
         Usuario usuario = new Usuario();
         usuario.setNombre("Erick");
@@ -26,7 +28,7 @@ public class UsuarioController {
         return usuario;
     }
 
-    @RequestMapping(value = "usuario")
+    @RequestMapping(value = "usuarioafqw")
     public Usuario delete(){
         Usuario usuario = new Usuario();
         usuario.setNombre("Erick");
@@ -36,8 +38,8 @@ public class UsuarioController {
         return usuario;
     }
 
-    @RequestMapping(value = "usuario")
-    public Usuario delete(){
+    @RequestMapping(value = "usuariodsaqwer")
+    public Usuario searchUser(){
         Usuario usuario = new Usuario();
         usuario.setNombre("Erick");
         usuario.setApellido("Fuentes");
