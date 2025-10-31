@@ -1,41 +1,36 @@
 package com.cursojava.curso.controller;
 
+import com.cursojava.curso.dao.IUserDAO;
 import com.cursojava.curso.models.Usuario;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class UsuarioController {
-    @RequestMapping(value = "usuario/{id}")
-    public Usuario getUser(@PathVariable Long id){
-        Usuario usuario = new Usuario();
-        usuario.setId(id);
-        usuario.setNombre("Erick");
-        usuario.setApellido("Fuentes");
-        usuario.setEmail("erickfuentes.it@gmail.com");
-        usuario.setTelefono("12345678");
-        return usuario;
+
+    @Autowired
+    private IUserDAO userDAO;
+
+    @RequestMapping(value = "api/v1/usuarios")
+    public List<Usuario> getUsers(){
+    return userDAO.getUsers();
     }
 
-    @RequestMapping(value = "usuarioasd")
-    public Usuario edit(){
-        Usuario usuario = new Usuario();
-        usuario.setNombre("Erick");
-        usuario.setApellido("Fuentes");
-        usuario.setEmail("erickfuentes.it@gmail.com");
-        usuario.setTelefono("12345678");
-        return usuario;
+    @RequestMapping(value = "api/v1/usuarios/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable Long id){
+        userDAO.deleteUser(id);
     }
 
-    @RequestMapping(value = "usuarioafqw")
-    public Usuario delete(){
-        Usuario usuario = new Usuario();
-        usuario.setNombre("Erick");
-        usuario.setApellido("Fuentes");
-        usuario.setEmail("erickfuentes.it@gmail.com");
-        usuario.setTelefono("12345678");
-        return usuario;
+    @RequestMapping(value = "api/v1/usuarios", method = RequestMethod.POST)
+    public void createUser(@RequestBody Usuario usuario){
+        Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
+        String hash = argon2.hash(1, 1024, 1, usuario.getPassword());
+        usuario.setPassword(hash);
+        userDAO.createUser(usuario);
     }
 
     @RequestMapping(value = "usuariodsaqwer")
