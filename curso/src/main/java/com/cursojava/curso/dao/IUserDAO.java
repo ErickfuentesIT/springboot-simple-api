@@ -12,5 +12,5 @@ public interface IUserDAO {
 
     void createUser(Usuario usuario);
 
-    boolean validateCredentials(Usuario usuario);
+    Usuario validateAndGetIdUser(Usuario usuario);
 }
